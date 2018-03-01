@@ -1,7 +1,7 @@
 version: '2'
 services:
-  lvm-postgres:
-    image: docker-images-lvm.lvm.de/lvm-postgres
+  postgres:
+    image: postgres
     network_mode: "bridge"
     environment:
       POSTGRES_PASSWORD: docker
@@ -9,7 +9,6 @@ services:
       POSTGRES_DB: tokentest
 
 # $DB_PORT wird standardmäßig über das File .env gesetzt.
-# In Unittests kann das überschrieben werden, siehe Jenkinsfile
     ports:
     - "${DB_PORT}:5432"
 #  Nutzt eine Ramdisk fuer die Postgres-Daten
