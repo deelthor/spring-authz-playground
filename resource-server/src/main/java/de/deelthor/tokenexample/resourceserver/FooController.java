@@ -1,4 +1,4 @@
-package de.lvm.tower.tokenexample.resourceserver;
+package de.deelthor.tokenexample.resourceserver;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;

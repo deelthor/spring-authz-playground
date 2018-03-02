@@ -1,4 +1,4 @@
-package de.lvm.tower.tokenexample.resourceserver;
+package de.deelthor.tokenexample.resourceserver;
 
 public class Foo {
     private long id;

@@ -1,4 +1,4 @@
-package de.lvm.tower.tokenexample.authzserver;
+package de.deelthor.tokenexample.authzserver;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

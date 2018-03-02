@@ -1,4 +1,4 @@
-package de.lvm.tower.tokenexample.resourceserver;
+package de.deelthor.tokenexample.resourceserver;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;

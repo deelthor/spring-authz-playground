@@ -1,4 +1,4 @@
-package de.lvm.tower.tokenexample.authzserver;
+package de.deelthor.tokenexample.authzserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
