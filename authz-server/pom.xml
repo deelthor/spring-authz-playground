@@ -10,7 +10,7 @@
 	<description>Authz Server</description>
 
 	<parent>
-		<groupId>de.lvm.tower.tokenexample</groupId>
+		<groupId>de.deelthor.tokenexample</groupId>
 		<artifactId>token-example</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath/>
