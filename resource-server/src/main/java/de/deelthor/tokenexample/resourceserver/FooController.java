@@ -1,6 +1,5 @@
 package de.deelthor.tokenexample.resourceserver;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import static org.apache.commons.lang.RandomStringUtils.randomNumeric;
 @Controller
 public class FooController {
 
-    @PreAuthorize("#oauth2.hasScope('read')")
     @RequestMapping(method = RequestMethod.GET, value = "/foos/{id}")
     @ResponseBody
     public Foo findById(@PathVariable long id) {
