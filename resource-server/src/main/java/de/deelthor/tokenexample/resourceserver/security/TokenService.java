@@ -1,6 +1,7 @@
 package de.deelthor.tokenexample.resourceserver.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,8 +14,8 @@ public class TokenService {
     private TokenProperties properties;
 
     @Autowired
-    public TokenService(RestTemplate restTemplate, TokenProperties properties) {
-        this.restTemplate = restTemplate;
+    public TokenService(RestTemplateBuilder restTemplateBuilder, TokenProperties properties) {
+        this.restTemplate = restTemplateBuilder.build();
         this.properties = properties;
     }
 
