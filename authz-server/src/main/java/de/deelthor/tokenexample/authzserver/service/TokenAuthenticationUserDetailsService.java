@@ -29,12 +29,13 @@ public class TokenAuthenticationUserDetailsService implements AuthenticationUser
             } catch (InvalidClaimException ex) {
                 throw new UsernameNotFoundException("Token has been expired", ex);
             }
-            return new TokenUserDetails(token.getSubject(), token.getClaim("usr").asString(), (String) authentication.getCredentials(), token.getToken(), true, token
-                    .getClaim("role")
-                    .asList(String.class)
-                    .stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList()));
+            return new TokenUserDetails(token.getSubject(), (String) authentication.getCredentials(), token.getToken(), true,
+                    token
+                            .getClaim("role")
+                            .asList(String.class)
+                            .stream()
+                            .map(SimpleGrantedAuthority::new)
+                            .collect(Collectors.toList()));
         } else {
             throw new UsernameNotFoundException("Could not retrieve user details for '" + authentication.getPrincipal() + "'");
         }

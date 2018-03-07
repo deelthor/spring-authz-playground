@@ -3,8 +3,7 @@ package de.deelthor.tokenexample.authzserver.service;
 import de.deelthor.tokenexample.authzserver.repository.Role;
 import de.deelthor.tokenexample.authzserver.TokenUserDetails;
 import de.deelthor.tokenexample.authzserver.repository.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import de.deelthor.tokenexample.authzserver.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,21 +16,19 @@ import java.util.stream.Collectors;
 @Service
 public class UsernamePasswordDetailsService implements UserDetailsService {
 
-    private final Logger logger = LoggerFactory.getLogger(getClass());
-    private UserService userService;
+    private UserRepository userRepository;
     private TokenService tokenService;
 
 
-    public UsernamePasswordDetailsService(UserService userService, TokenService tokenService) {
-        this.userService = userService;
+    public UsernamePasswordDetailsService(UserRepository userRepository, TokenService tokenService) {
+        this.userRepository = userRepository;
         this.tokenService = tokenService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        logger.debug("Trying to authenticate ", email);
         try {
-            return getUserDetails(userService.findByEmail(email));
+            return getUserDetails(userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new));
         } catch (UserNotFoundException ex) {
             throw new UsernameNotFoundException("Account for '" + email + "' not found", ex);
         }
@@ -40,7 +37,6 @@ public class UsernamePasswordDetailsService implements UserDetailsService {
     private TokenUserDetails getUserDetails(User user) {
         return new TokenUserDetails(
                 user.getEmail(),
-                user.getUsername(),
                 user.getPassword(),
                 tokenService.encode(user),
                 user.isEnabled(),

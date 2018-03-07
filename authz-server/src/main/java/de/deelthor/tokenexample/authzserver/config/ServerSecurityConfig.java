@@ -5,7 +5,6 @@ import de.deelthor.tokenexample.authzserver.service.UsernamePasswordDetailsServi
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -22,17 +21,17 @@ import org.springframework.security.web.authentication.preauth.RequestHeaderAuth
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ServerSecurityConfig {
 
-    private UsernamePasswordDetailsService service;
-    private PasswordEncoder passwordEncoder;
-
-    public ServerSecurityConfig(UsernamePasswordDetailsService service, PasswordEncoder passwordEncoder) {
-        this.service = service;
-        this.passwordEncoder = passwordEncoder;
-    }
-
     @Configuration
     @Order(1)
     public class BasicAuthConfig extends WebSecurityConfigurerAdapter {
+
+        private UsernamePasswordDetailsService service;
+        private PasswordEncoder passwordEncoder;
+
+        public BasicAuthConfig(UsernamePasswordDetailsService service, PasswordEncoder passwordEncoder) {
+            this.service = service;
+            this.passwordEncoder = passwordEncoder;
+        }
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -69,8 +68,8 @@ public class ServerSecurityConfig {
             http
                     .antMatcher("/api/user")
                     .authorizeRequests()
-                    .mvcMatchers(HttpMethod.POST, "/api/user").anonymous()
-                    .anyRequest().authenticated()
+                    .anyRequest()
+                    .authenticated()
                     .and()
                     .addFilterBefore(authFilter(), RequestHeaderAuthenticationFilter.class)
                     .authenticationProvider(preAuthProvider())
