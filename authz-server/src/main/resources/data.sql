@@ -1,4 +1,4 @@
-INSERT INTO user (email, username, password, enabled) VALUES
+INSERT INTO user (email, password, enabled) VALUES
   ('th.deelmann@gmail.com', '$2a$10$Fg.pwGKNEk8TtRq3C86DEeIo6CnUI05umcVQuvRh2DdwEKJUPtsJK', 1);
 
 INSERT INTO role (email, role) VALUES

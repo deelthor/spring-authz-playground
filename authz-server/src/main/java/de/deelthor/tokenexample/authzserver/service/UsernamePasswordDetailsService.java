@@ -1,7 +1,6 @@
 package de.deelthor.tokenexample.authzserver.service;
 
 import de.deelthor.tokenexample.authzserver.repository.Role;
-import de.deelthor.tokenexample.authzserver.TokenUserDetails;
 import de.deelthor.tokenexample.authzserver.repository.User;
 import de.deelthor.tokenexample.authzserver.repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,12 +16,10 @@ import java.util.stream.Collectors;
 public class UsernamePasswordDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
-    private TokenService tokenService;
 
 
-    public UsernamePasswordDetailsService(UserRepository userRepository, TokenService tokenService) {
+    public UsernamePasswordDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.tokenService = tokenService;
     }
 
     @Override
@@ -34,12 +31,12 @@ public class UsernamePasswordDetailsService implements UserDetailsService {
         }
     }
 
-    private TokenUserDetails getUserDetails(User user) {
-        return new TokenUserDetails(
+    private UserDetails getUserDetails(User user) {
+        return new org.springframework.security.core.userdetails.User(
                 user.getEmail(),
                 user.getPassword(),
-                tokenService.encode(user),
                 user.isEnabled(),
+                true, true, true,
                 getAuthorities(user.getRoles()));
     }
 
