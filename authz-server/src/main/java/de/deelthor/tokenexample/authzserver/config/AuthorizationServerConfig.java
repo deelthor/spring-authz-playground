@@ -41,14 +41,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Value("${security.jwt.scope-write}")
     private String scopeWrite = "write";
 
-    @Value("${security.jwt.resource-ids}")
-    private String resourceIds;
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Override
-    public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
+    public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
         oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 
@@ -59,12 +56,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient(clientId)
                 .secret(clientSecret)
                 .authorizedGrantTypes(grantType)
-                .scopes(scopeRead, scopeWrite)
-                .resourceIds(resourceIds);
+                .scopes(scopeRead, scopeWrite);
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
         enhancerChain.setTokenEnhancers(Arrays.asList(vertragsIdTokenEnhancer(), partnerRefTokenEnhancer(), accessTokenConverter()));
         endpoints.tokenStore(tokenStore())

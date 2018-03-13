@@ -23,17 +23,17 @@ public class UsernamePasswordDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
-            return getUserDetails(userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new));
+            return getUserDetails(userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new));
         } catch (UserNotFoundException ex) {
-            throw new UsernameNotFoundException("Account for '" + email + "' not found", ex);
+            throw new UsernameNotFoundException("Account for '" + username + "' not found", ex);
         }
     }
 
     private UserDetails getUserDetails(User user) {
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
+                user.getUsername(),
                 user.getPassword(),
                 user.isEnabled(),
                 true, true, true,

@@ -24,16 +24,12 @@ import java.io.IOException;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    @Value("${security.jwt.resource-ids}")
-    private String resourceIds;
-
-
     @Autowired
     private AccessTokenConverter customAccessTokenConverter;
 
     @Override
     public void configure(final ResourceServerSecurityConfigurer config) {
-        config.resourceId(resourceIds).tokenServices(tokenServices());
+        config.tokenServices(tokenServices());
     }
 
     @Override
