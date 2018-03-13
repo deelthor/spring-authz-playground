@@ -1,10 +1,13 @@
 package de.deelthor.tokenexample.resourceserver.security;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -15,24 +18,14 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.io.IOException;
+
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Value("${security.jwt.resource-ids}")
     private String resourceIds;
-
-    @Value("${security.jwt.client-id}")
-    private String clientId;
-
-    @Value("${security.jwt.client-secret}")
-    private String clientSecret;
-
-    @Value("${security.jwt.endpoint}")
-    private String tokenEndpointUrl;
-
-    @Value("${security.jwt.signing-key}")
-    private String signingKey;
 
 
     @Autowired
@@ -61,7 +54,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
         converter.setAccessTokenConverter(customAccessTokenConverter);
-        converter.setSigningKey(signingKey);
+        Resource resource = new ClassPathResource("public.txt");
+        String publicKey;
+        try {
+            publicKey = IOUtils.toString(resource.getInputStream());
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+        converter.setVerifierKey(publicKey);
         return converter;
     }
 
