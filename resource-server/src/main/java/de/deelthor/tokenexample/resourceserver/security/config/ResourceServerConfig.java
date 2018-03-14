@@ -1,4 +1,4 @@
-package de.deelthor.tokenexample.resourceserver.security;
+package de.deelthor.tokenexample.resourceserver.security.config;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;

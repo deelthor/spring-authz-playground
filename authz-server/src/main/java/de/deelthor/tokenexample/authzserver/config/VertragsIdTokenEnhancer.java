@@ -12,7 +12,7 @@ public class VertragsIdTokenEnhancer implements TokenEnhancer{
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         Map<String, Object> additionalInformation = new HashMap<>(accessToken.getAdditionalInformation());
-        additionalInformation.put("vertragsId", false);
+        additionalInformation.put("vertragsId", "666");
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
         return accessToken;
     }
