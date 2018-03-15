@@ -1,19 +1,11 @@
 package de.deelthor.tokenexample.authzserver.config;
 
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+public class PartnerRefTokenEnhancer extends RequestParamTokenEnhancer {
 
-import java.util.HashMap;
-import java.util.Map;
+    private static final String PARTNER_REF_NR = "partnerRefNr";
 
-public class PartnerRefTokenEnhancer implements TokenEnhancer {
     @Override
-    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        Map<String, Object> additionalInformation = new HashMap<>(accessToken.getAdditionalInformation());
-        additionalInformation.put("partnerRefNr", "4711");
-        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInformation);
-        return accessToken;
+    String getRequestParameterKey() {
+        return PARTNER_REF_NR;
     }
 }
